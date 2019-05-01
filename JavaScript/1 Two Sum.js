@@ -5,7 +5,7 @@
  * @LastEditors: yangguoqiang01
  * @Description: 
  * @Date: 2019-04-28 15:09:00
- * @LastEditTime: 2019-04-28 15:18:33
+ * @LastEditTime: 2019-05-01 15:36:13
  */
 
 
@@ -41,8 +41,7 @@ var twoSum = function (nums, target) {
 
 
 /**
- * @explain 每次循环都把 赋值当前i赋值给 a数组 
-            a[2] = 0  a[15] = 1 a[11] = 2 a[7] = 3 直到 a[tmp] 有了值说明已经找到了那个合适的 
+ * @explain 利用对象键的唯一性，给值赋值
  * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
@@ -54,6 +53,23 @@ var twoSum = function (nums, target) {
         if (a[tmp] !== undefined) return [a[tmp], i];
         a[nums[i]] = i;
     }
+};
+
+/**
+ * @explain 根据对象findIndex方法 劣势：不能及时return；
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function (nums, target) {
+    const arrCons = nums.map((item, index, arr) => {
+        const res = target - item;
+        const $index = arr.findIndex(one => one === res);
+        if($index > -1) {
+            return [index, $index];
+        }
+    });
+    return [...new Set(arrCons.flat())].filter(item => typeof item !== 'undefined');
 };
 
 // test: twoSum([2, 15, 11, 7], 9)
